@@ -1,3 +1,33 @@
+@import url('https://fonts.googleapis.com/css?family=Domine&display=swap');
+
+body {
+  font-family: 'Domine', serif;
+}
+
 #cerrarconexion {
   display: none;
+}
+
+sub {
+  vertical-align: sub;
+  font-size: smaller;
+}
+
+span {
+  margin-left: 10px;
+}
+
+input[type=number]:focus{
+  border-color: #8991B3;
+  box-shadow: 0 0 8px 0 #8991B3;
+}
+
+input[type=date]:focus{
+  border-color: #8991B3;
+  box-shadow: 0 0 8px 0 #8991B3;
+}
+
+input[type=text]:focus{
+  border-color: #8991B3;
+  box-shadow: 0 0 8px 0 #8991B3;
 }

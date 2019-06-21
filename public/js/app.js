@@ -1,3 +1,7 @@
+//Autor: Sara Gharafi Abalkais.
+//Fecha: 14/06/2019
+//Ejercicio: primera evaluacion de "publicacion de páginas web"
+
 // Your web app's Firebase configuration
 var firebaseConfig = {
   apiKey: "AIzaSyDNL8OvH2xvvtti80E6s4jFlMvT3KOz7QQ",
@@ -84,13 +88,19 @@ function observador() {
 }
 
 function contenidosUsuarioRegistrado(usuario) {
-  var contenido = document.getElementById("contenido");
+  let contenido = document.getElementById("contenido");
+
+  let territorio = document.getElementById("territorio");
+  let fechaInicio = document.getElementById("fechaInicio");
+  let fechaFin = document.getElementById("fechaFin");
+  let quien = document.getElementById("quien");
+  let cuando = document.getElementById("cuando");
+
   if (usuario.emailVerified) {
-    /*  pattern="^(?:[1-9]|0[1-9]|10)$" tipo de territorio */
     contenido.innerHTML = `
       <div class="alert alert-warning alert-dismissible fade show mt-3" role="alert">
         <h4 class="alert-heading">¡Bienvenido ${usuario.email}!</h4>
-        <p>Siéntete a gusto en nuestro portal.</p>
+        <p>Bienvenido a nuestro portal.</p>
         <hr>
         <p class="mb-0">Tenemos muchos contenidos exclusivos solo para usuarios registrados como tú.</p>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -101,30 +111,36 @@ function contenidosUsuarioRegistrado(usuario) {
       <h2>Agregar usuarios</h2>
 
       <div class="form-inline">
-        <label for="tTerritorio" class="col-sm-2 col-form-label">Tipo de territorio: </label>
-        <input type="number" id="tTerritorio" placeholder="Introduce un territorio" class="form-control my-1 col-sm-3" min="1" max="10">
+        <label for="tTerritorio" class="col-sm-2 col-form-label">Tipo de territorio<sub>(*)</sub>: </label>
+        <input type="number" id="tTerritorio" placeholder="Introduce un territorio" class="form-control my-1 col-sm-3" min="1" max="10" required onblur="validarTipoTerritorio();">
+        <span id="uno"></span>
       </div>
       <div class="form-inline">
-        <label for="territorio" class="col-sm-2 col-form-label">Id del territorio: </label>
-        <input type="number" id="territorio" placeholder="Introduce un territorio" class="form-control my-3 col-sm-3" min="1" max="300">
+        <label for="territorio" class="col-sm-2 col-form-label">Id del territorio<sub>(*)</sub>: </label>
+        <input type="number" id="territorio" placeholder="Introduce un territorio" class="form-control my-3 col-sm-3" min="1" max="300" required onblur="validarTerritorio();">
+        <span id="dos"></span>
       </div>
       <div class="form-inline">
-        <label for="fechaInicio" class="col-sm-2 col-form-label">Fecha de incio: </label>
-        <input type="date" id="fechaInicio" placeholder="Introduce la fecha de inicio" class="form-control my-3 col-sm-3">
+        <label for="fechaInicio" class="col-sm-2 col-form-label">Fecha de incio<sub>(*)</sub>: </label>
+        <input type="date" id="fechaInicio" placeholder="Introduce la fecha de inicio" class="form-control my-3 col-sm-3" required onblur="validarFechaInicio(fechaInicio);">
+        <span id="tres"></span>
       </div>
       <div class="form-inline">
-        <label for="fechaFin" class="col-sm-2 col-form-label">Fecha fin: </label>
-        <input type="date" id="fechaFin" placeholder="Introduce la fecha final" class="form-control my-3 col-sm-3">
+        <label for="fechaFin" class="col-sm-2 col-form-label">Fecha fin<sub>(*)</sub>: </label>
+        <input type="date" id="fechaFin" placeholder="Introduce la fecha final" class="form-control my-3 col-sm-3" required onblur="compararInicioFin(fechaInicio, fechaFin);">
+        <span id="cuatro"></span>
       </div>
       <div class="form-inline">
-        <label for="quien" class="col-sm-2 col-form-label">Quién: </label>
-        <input type="number" id="quien" placeholder="Introduce el id del agente que ha realizado el trabajo" class="form-control my-3 col-sm-3" min="1" max="120">
+        <label for="quien" class="col-sm-2 col-form-label">Quién<sub>(*)</sub>: </label>
+        <input type="number" id="quien" placeholder="Introduce el id del agente que ha realizado el trabajo" class="form-control my-3 col-sm-3" min="1" max="120" required onblur="validarQuien(quien);">
+        <span id="cinco"></span>
       </div>
       <div class="form-inline">
-        <label for="cuando" class="col-sm-2 col-form-label">Cuándo: </label>
-        <input type="text" id="cuando" placeholder="Introduce un comentario de su trabajo" class="form-control my-2 col-sm-3" maxlenght="50" pattern="\d{4}">
+        <label for="cuando" class="col-sm-2 col-form-label">Cuándo<sub>(*)</sub>: </label>
+        <input type="text" id="cuando" placeholder="Introduce un comentario de su trabajo" class="form-control my-2 col-sm-3" maxlenght="50" required onblur="validarCuando(cuando);">
+        <span id="seis"></span>
       </div>
-      <button class="btn btn-info my-3" id="guardar">Guardar</button>
+      <button class="btn btn-info my-3" id="guardar" onclick="return validarTabla();">Guardar</button>
 
       <table class="table">
         <thead>
@@ -163,6 +179,110 @@ function contenidosUsuarioRegistrado(usuario) {
       </div>
       `;
   }
+}
+
+function validarTabla() {
+  if (!validarTipoTerritorio()) {
+    return false;
+  }
+  if (!validarTerritorio()) {
+    return false;
+  }
+  if (!validarFechaInicio(fechaInicio)) {
+    return false;
+  }
+  if (!comprobarInicioFin(fechaInicio, fechaFin)) {
+    return false;
+  }
+  if (!validarQuien(quien)) {
+    return false;
+  }
+  if (!validarCuando(cuando)) {
+    return false;
+  }
+  return true;
+}
+
+function validarTipoTerritorio() {
+  let tTerritorio = document.getElementById("tTerritorio");
+  if (/^(?:[1-9]|0[1-9]|10)$/.test(tTerritorio.value)) {
+    $("#uno").html("<i class='far fa-check-square'></i>");
+    $("#uno").css("color", "#0A8F36").css("fontSize", "2em");
+    return true;
+  } else {
+    document.getElementById("uno").innerHTML = "Por favor, introduzca un número del 1 al 10.";
+    $("#uno").css("color", "#D60100").css("fontSize", "1em");
+    return false;
+  }
+}
+
+function validarTerritorio() {
+  let territorio = document.getElementById("territorio");
+  if (/^(?:[1-9]\d?|[12]\d{2}|300)$/.test(territorio.value)) {
+    $("#dos").html("<i class='far fa-check-square'></i>");
+    $("#dos").css("color", "#0A8F36").css("fontSize", "2em");
+    return true;
+  } else {
+    document.getElementById("dos").innerHTML = "Por favor, introduzca un número del 1 al 300.";
+    $("#dos").css("color", "#D60100").css("fontSize", "1em");
+    return false;
+  }
+}
+
+function validarFechaInicio(fechaInicio) {
+  hoyInicio = new Date(); //fecha actual del sistema.
+  if (fechaInicio.value <= hoyInicio || fechaInicio.value !== "") {
+    $("#tres").html("<i class='far fa-check-square'></i>");
+    $("#tres").css("color", "#0A8F36").css("fontSize", "2em");
+    return true;
+  } else {
+    document.getElementById("tres").innerHTML = "Por favor, introduzca una fecha correcta.";
+    $("#tres").css("color", "#D60100").css("fontSize", "1em");
+    return false;
+  }
+}
+
+function compararInicioFin(fechaInicio, fechaFin) {
+  hoy = new Date();
+  if (fechaFin.value >= fechaInicio.value) {
+    $("#cuatro").html("<i class='far fa-check-square'></i>");
+    $("#cuatro").css("color", "#0A8F36").css("fontSize", "2em");
+    return true;
+  } else {
+    document.getElementById("cuatro").innerHTML = "Por favor, introduzca una fecha correcta.";
+    $("#cuatro").css("color", "#D60100").css("fontSize", "1em");
+    return false;
+  }
+}
+
+function validarQuien(quien) {
+  if (/^(12[0-0]|1[01][0-9]|[1-9]?[0-9])$/.test(quien)) {
+    $("#cinco").html("<i class='far fa-check-square'></i>");
+    $("#cinco").css("color", "#0A8F36").css("fontSize", "2em");
+    return true;
+  } else {
+    document.getElementById("cinco").innerHTML = "Por favor, introduzca el número 'ID' del trabajador.";
+    $("#cinco").css("color", "#D60100").css("fontSize", "1em");
+    return false;
+  }
+}
+
+function validarCuando(cuando) {
+  if (/^([A-Za-zÁÉÍÓÚñáéíóúÑ]{10,50}?$/.test(cuando)) {
+    $("#seis").html("<i class='far fa-check-square'></i>");
+    $("#seis").css("color", "#0A8F36").css("fontSize", "2em");
+    return true;
+  } else {
+    document.getElementById("seis").innerHTML = "Por favor, introduzca cuándo se ha realizado el trabajo.";
+    $("#seis").css("color", "#D60100").css("fontSize", "1em");
+    return false;
+  }
+}
+
+function validarTabla() {
+  $("span").click(function () {
+    $("div").empty();
+  });
 }
 
 function cerrar() {
@@ -208,19 +328,19 @@ function guardar() {
     cuando: document.getElementById("cuando").value
   };
 
-db.collection("usuarios").add(usuario)
-  .then(function (docRef) {
-    console.log("Documento escrito con ID: ", docRef.id);
-    document.getElementById("tTerritorio").value = "";
-    document.getElementById("territorio").value = "";
-    document.getElementById("fechaInicio").value = "";
-    document.getElementById("fechaFin").value = "";
-    document.getElementById("quien").value = "";
-    document.getElementById("cuando").value = "";
-  })
-  .catch(function (error) {
-    console.error("Error añadiendo el documento: ", error);
-  });
+  db.collection("usuarios").add(usuario)
+    .then(function (docRef) {
+      console.log("Documento escrito con ID: ", docRef.id);
+      document.getElementById("tTerritorio").value = "";
+      document.getElementById("territorio").value = "";
+      document.getElementById("fechaInicio").value = "";
+      document.getElementById("fechaFin").value = "";
+      document.getElementById("quien").value = "";
+      document.getElementById("cuando").value = "";
+    })
+    .catch(function (error) {
+      console.error("Error añadiendo el documento: ", error);
+    });
 }
 
 // Lectura de los documentos
