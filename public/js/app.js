@@ -280,9 +280,6 @@ function validarCuando(cuando) {
 }
 
 function validarTabla() {
-  $("span").click(function () {
-    $("div").empty();
-  });
 }
 
 function cerrar() {
