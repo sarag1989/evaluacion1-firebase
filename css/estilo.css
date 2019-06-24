@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Merriweather&display=swap');
 
 body {
+  background: url(http://pixeldevs.io/bg.png) white no-repeat top left;
   font-family: 'Merriweather', serif;
   width: 100%;
   max-width: 80%;
@@ -9,16 +10,54 @@ body {
 
 .titulo {
   text-align: justify;
-  background-color: lightgrey;
+  /* background-color: lightgrey; */
 }
 
 .cuerpo {
   max-height: 1200px;
   text-align: justify;
-  background-color: lightgoldenrodyellow;
+  /* background-color: lightgoldenrodyellow; */
 }
 
-h1, p {
+p {
   text-align: justify;
-  margin: 20px 20px 20px 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+h1 {
+  text-align: center;
+  letter-spacing: 2px;
+}
+
+.wrapper {
+  width: 1020px;
+  background: transparent;
+  border-radius: 15px;
+  margin: 40px auto;
+  box-shadow: 0 0 50px #999;
+  padding: 20px;
+}
+
+.content-amarillo {
+  width: 1020px;
+  border-radius: 15px;
+  margin: 40px auto;
+  box-shadow: 0 0 50px #999;
+  padding: 20px;
+  background: yellow;
+  display: flex;
+  height: 260px;
+  justify-content: center;
+  align-items: center;
+}
+
+.smiley {
+  position: relative;
+  width: 15px;
+  height: 25px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: -3px -15px 0px 20px #000, 120px 30px 0px 30px yellow,
+    120px 5px 0px 20px #000, 50px 20px 0px 70px yellow, 70px 45px 0px 60px #000;
 }
