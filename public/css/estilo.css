@@ -31,3 +31,11 @@ input[type=text]:focus{
   border-color: #8991B3;
   box-shadow: 0 0 8px 0 #8991B3;
 }
+
+.titulo {
+  background-color: lightgrey;
+}
+
+h1 {
+  text-align: center;
+}
